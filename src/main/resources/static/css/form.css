@@ -1,0 +1,16 @@
+body{
+    margin-top:20px;
+    background: #f8f8f8;
+}
+
+.container{
+    width:600px;
+}
+
+.card {
+    padding: 0px 25px 20px;
+    border: initial;
+    background: #fff;
+    border-radius: calc(.15rem - 1px);
+    box-shadow: 0 1px 15px rgba(0,0,0,0.04), 0 1px 6px rgba(0,0,0,0.04);
+}

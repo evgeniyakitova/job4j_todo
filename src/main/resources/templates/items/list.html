@@ -1,0 +1,24 @@
+<div class="todo-item" th:each="item: ${items}" th:id="${item.id}">
+    <div class="todo-item-header">
+        <div class="checker">
+            <span>
+                <input type="checkbox" th:checked="${item.done}">
+            </span>
+        </div>
+        <span class="todo-item-description" th:text="${item.description}"></span>
+        <span class="todo-item-edit">
+            <a th:href="@{|/items/edit/${item.id}|}" class="text-secondary" title="Edit todo">
+                <i class="fa-solid fa-pen"></i>
+            </a>
+            <a href="#" class="text-secondary delete-item" title="Delete todo">
+                <i class="fa-solid fa-xmark"></i>
+            </a>
+        </span>
+    </div>
+    <div class="todo-item-footer">
+        <span th:text="${#strings.setJoin(item.categories, ', ')}">
+        </span>
+        <span class="item-date text-muted" title="Created date" th:text="${{item.created}}">
+        </span>
+    </div>
+</div>
