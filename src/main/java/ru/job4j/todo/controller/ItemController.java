@@ -34,7 +34,7 @@ public class ItemController {
     private static class CategoryPropertyEditor extends PropertyEditorSupport {
         @Override
         public void setAsText(String id) {
-            final Category category = new Category(Integer.parseInt(id));
+            Category category = new Category(Integer.parseInt(id));
             setValue(category);
         }
 
@@ -105,10 +105,10 @@ public class ItemController {
         return "redirect:/items";
     }
 
-    @PostMapping("/update_checkbox")
+    @PostMapping("/update_status")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateCheckbox(@RequestParam("id") int id, @RequestParam("done") boolean done) {
-        itemService.updateCheckbox(done, id);
+    public void updateStatus(@RequestParam("id") int id, @RequestParam("done") boolean done) {
+        itemService.updateStatus(done, id);
     }
 
     @DeleteMapping("/{id}")

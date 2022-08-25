@@ -39,8 +39,8 @@ public class ItemService {
         itemStore.update(item);
     }
 
-    public void updateCheckbox(boolean isDone, int id) {
-        itemStore.updateCheckbox(isDone, id);
+    public void updateStatus(boolean isDone, int id) {
+        itemStore.updateStatus(isDone, id);
     }
 
     public void delete(int id) {

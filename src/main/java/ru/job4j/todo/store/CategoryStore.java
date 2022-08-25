@@ -8,6 +8,9 @@ import java.util.List;
 
 @Repository
 public class CategoryStore implements Store {
+
+    private static final String FIND_ALL_QUERY = "from Category";
+
     private final SessionFactory sf;
 
     public CategoryStore(SessionFactory sf) {
@@ -15,7 +18,7 @@ public class CategoryStore implements Store {
     }
 
     public List<Category> findAll() {
-        return tx(session -> session.createQuery("from Category", Category.class).list(), sf);
+        return tx(session -> session.createQuery(FIND_ALL_QUERY, Category.class).list(), sf);
     }
 
 }

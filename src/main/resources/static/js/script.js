@@ -43,7 +43,7 @@ function setCheckboxCallback () {
         const id = $(this).closest('.todo-item').attr('id');
         const done = $(this).is(':checked');
         $.post(
-            `${window.location.origin}/items/update_checkbox`,
+            `${window.location.origin}/items/update_status`,
             {
                 id,
                 done

@@ -9,6 +9,26 @@ import java.util.Optional;
 
 @Repository
 public class ItemStore implements Store {
+
+    private static final String FIND_ALL_QUERY = """
+                                                select distinct it from Item it join fetch it.categories
+                                                where it.user.id = :userId
+                                         """;
+
+    private static final String FIND_BY_DONE_QUERY = """
+                                                 select distinct it from Item it join fetch it.categories
+                                                 where it.user.id = :userId and it.done=:done
+                                            """;
+
+    private static final String FIND_BY_ID_QUERY = """
+                                                 select distinct it from Item it join fetch it.categories
+                                                 where it.id = :id
+                                            """;
+
+    private static final String UPDATE_STATUS_QUERY = """ 
+                                                 update Item set done=:isDone where id=:id
+                                            """;
+
     private final SessionFactory sf;
 
     public ItemStore(SessionFactory sf) {
@@ -17,8 +37,7 @@ public class ItemStore implements Store {
 
     public List<Item> findAll(int userId) {
         return tx(session -> session.createQuery(
-                "select distinct it from Item it join fetch it.categories where it.user.id = :userId",
-                        Item.class
+                        FIND_ALL_QUERY, Item.class
                 )
                 .setParameter("userId", userId)
                 .list(), sf);
@@ -26,8 +45,7 @@ public class ItemStore implements Store {
 
     public List<Item> findByDone(int userId, boolean done) {
         return tx(session -> session.createQuery(
-                "select distinct it from Item it join fetch it.categories where it.user.id = :userId and it.done=:done",
-                        Item.class
+                        FIND_BY_DONE_QUERY, Item.class
                 )
                 .setParameter("userId", userId)
                 .setParameter("done", done)
@@ -36,8 +54,7 @@ public class ItemStore implements Store {
 
     public Optional<Item> findById(int id) {
         return tx(session -> session.createQuery(
-                        "select distinct it from Item it join fetch it.categories where it.id = :id",
-                        Item.class
+                        FIND_BY_ID_QUERY, Item.class
                 )
                 .setParameter("id", id)
                 .uniqueResultOptional(), sf);
@@ -54,8 +71,8 @@ public class ItemStore implements Store {
         }, sf);
     }
 
-    public void updateCheckbox(boolean isDone, int id) {
-        tx(session -> session.createQuery("update Item set done=:isDone where id=:id")
+    public void updateStatus(boolean isDone, int id) {
+        tx(session -> session.createQuery(UPDATE_STATUS_QUERY)
                 .setParameter("isDone", isDone)
                 .setParameter("id", id)
                 .executeUpdate(), sf);

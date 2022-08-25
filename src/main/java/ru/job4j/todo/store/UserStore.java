@@ -9,6 +9,12 @@ import java.util.Optional;
 
 @Repository
 public class UserStore implements Store {
+
+    private static final String FIND_BY_EMAIL_AND_PWD = """
+                                                from User user where user.email = :email
+                                                and user.password = :password
+                                        """;
+
     private final SessionFactory sf;
 
     public UserStore(SessionFactory sf) {
@@ -16,8 +22,7 @@ public class UserStore implements Store {
     }
 
     public Optional<User> findByEmailAndPwd(String email, String password) {
-        return tx(session -> session.createQuery(
-                "from User user where user.email = :email and user.password = :password", User.class)
+        return tx(session -> session.createQuery(FIND_BY_EMAIL_AND_PWD, User.class)
                 .setParameter("email", email)
                 .setParameter("password", password)
                 .uniqueResultOptional(), sf);
